@@ -1,0 +1,6 @@
+id,idontology,url,shortname
+0,1,https://w3id.org/saref,saref
+1,2,http://www.wurvoc.org/vocabularies/om-1.8/,om
+2,3,http://purl.org/iot/vocab/m3-lite,m3-lite
+3,4,http://www.w3.org/2003/01/geo/wgs84_pos,geo
+4,5,http://www.w3.org/2001/XMLSchema,xsd
