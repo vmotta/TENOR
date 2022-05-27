@@ -264,7 +264,7 @@ class VirtualThingFileGenerator:
         f.close()
         # print("THING_{}.js was generated in folder thing in this root directory!".format(self.thing_name))
         # open file for save JS file
-        f = open("log/LOG_" + self.thing_name + "_" +datetime.now().strftime("%H-%M-%S") + ".txt", "a")
+        f = open("log/LOG_" + self.thing_name + "_" +datetime.now().strftime("%H-%M-%S") + ".txt", "a+")
         # calculate time of execution
         self.run_time = time.time() - self.run_time
         # write in folder
@@ -273,7 +273,7 @@ class VirtualThingFileGenerator:
         f.close()
 
 if __name__ == "__main__":
-    f = open("log/ALL_" +datetime.now().strftime("%H-%M-%S") + ".txt", "a")
+    f = open("log/ALL_" +datetime.now().strftime("%H-%M-%S") + ".txt", "a+")
     run_time = time.time()
     # number of instances
     q = 1000
