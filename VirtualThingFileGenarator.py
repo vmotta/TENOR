@@ -8,6 +8,7 @@ import glob
 import math
 import time
 from datetime import datetime
+import os
 
 class Interactions:
     """
@@ -78,7 +79,10 @@ class Interactions:
     def random_choice_interaction(self):
         # randomic choice interaction
         df = self.df_idinteracao
-        random_number = random.randint(0, df.shape[0]-1)
+        # select random interacoes' id 
+        random_number = random.choice(df["id"].tolist())        
+        random_number = 32
+        print(random_number)
         # get interaction using the filter with id randomic choiced
         df_interacao = df.query("id ==  + {}".format(random_number))
         # get concepts using the filter with intecraction's idconcept 
@@ -256,6 +260,9 @@ class VirtualThingFileGenerator:
         self.vt_thing += self.then;
 
     def create_thing(self) -> float:
+        # check if log folder exists and create if not
+        if not os.path.exists("things"):
+            os.makedirs("things")
         # open file for save JS file
         f = open("things/THING_" + self.thing_name + ".js", "w")
         # write in folder
@@ -264,6 +271,9 @@ class VirtualThingFileGenerator:
         f.close()
         # print("THING_{}.js was generated in folder thing in this root directory!".format(self.thing_name))
         # open file for save JS file
+        # check if log folder exists and create if not
+        if not os.path.exists("log"):
+            os.makedirs("log")
         f = open("log/LOG_" + self.thing_name + "_" +datetime.now().strftime("%H-%M-%S") + ".txt", "a+")
         # calculate time of execution
         self.run_time = time.time() - self.run_time
@@ -272,11 +282,35 @@ class VirtualThingFileGenerator:
         # close file
         f.close()
 
+class manage_files:
+    # reset all content of folders
+    def reset_all_folders(self) -> None:   
+        # check if log folder exists and create if not
+        if not os.path.exists("things"):
+            os.makedirs("things")
+        else:
+            for f in glob.glob('things/*'):
+                os.remove(f)
+        # check if log folder exists and create if not
+        if not os.path.exists("log"):
+            os.makedirs("log")
+        else:    
+            for f in glob.glob('things/*'):
+                os.remove(f)
+        print("Arquivos resetados!")
+
+
 if __name__ == "__main__":
-    f = open("log/ALL_" +datetime.now().strftime("%H-%M-%S") + ".txt", "a+")
+    #reset files contents
+    rf = manage_files()
+    rf.reset_all_folders()
+    # check if log folder exists and create if not
+    if not os.path.exists("log"):
+        os.makedirs("log")
+    f = open("log/ALL_" +datetime.now().strftime("%H-%M-%S")+".txt", "a+")
     run_time = time.time()
     # number of instances
-    q = 1000
+    q = 1
     for i in range(q):
         vtc = VirtualThingFileGenerator(2)
     # write in folder
