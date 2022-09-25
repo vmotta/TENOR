@@ -1,5 +1,3 @@
-flask
-gunicorn
+Flask
 pandas
-Authlib
-requests
+numpy

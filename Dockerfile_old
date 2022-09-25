@@ -1,13 +1,9 @@
-# syntax=docker/dockerfile:1
+#Using EC2 AWS Ubuntu 18.04 LTS (t2.micro)
 
-FROM python:3.8-slim-buster
+#Installing nodejs
 
-WORKDIR /python-docker
-
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-COPY . .
+# Pull base image.
+FROM ubuntu:16.04
 
 WORKDIR /home/ubuntu
 
@@ -46,6 +42,7 @@ RUN mkdir /var/run/sshd
 RUN echo 'root:mypassword' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+CMD ["/usr/sbin/sshd", "-D"]
 
 COPY things/*.js /home/ubuntu/thingweb.node-wot/examples/scripts/
 
@@ -54,9 +51,3 @@ VOLUME thingweb
 WORKDIR /home/ubuntu/thingweb.node-wot/
 
 EXPOSE 8080 22
-
-#CMD ["/usr/sbin/sshd", "-D"]
-
-#CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
-
-CMD /usr/sbin/sshd -D  && python3 -m flask run --host=0.0.0.0
