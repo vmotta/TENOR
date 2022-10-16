@@ -1,17 +1,29 @@
+#FROM python:3.8-slim-buster
+#WORKDIR /app
+# We copy just the requirements.txt first to leverage Docker cache
+#COPY ./requirements.txt /app/requirements.txt
+#RUN pip install -r requirements.txt
+#COPY . /app
+#EXPOSE 8080 5000
+#CMD ["python", "/app/app.py"]
+
 # syntax=docker/dockerfile:1
-
-FROM python:3.8-slim-buster
-
-WORKDIR /python-docker
-
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-COPY . .
-
-WORKDIR /home/ubuntu
+FROM python:3.7-slim-buster
 
 RUN apt-get update
+
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_RUN_PORT=5000
+#RUN apk add --no-cache gcc musl-dev linux-headers
+
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements.txt
+EXPOSE 8080 5000
+#CMD [ "flask", "run" ]
+
+WORKDIR /home/ubuntu
 
 RUN apt-get install -y curl
 
@@ -53,10 +65,6 @@ VOLUME thingweb
 
 WORKDIR /home/ubuntu/thingweb.node-wot/
 
-EXPOSE 8080 22
+WORKDIR /app
 
-#CMD ["/usr/sbin/sshd", "-D"]
-
-#CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
-
-CMD /usr/sbin/sshd -D  && python3 -m flask run --host=0.0.0.0
+CMD python3 -m flask run --host=0.0.0.0 && /usr/sbin/sshd -D
