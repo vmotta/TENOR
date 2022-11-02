@@ -297,7 +297,7 @@ class manage_files:
         else:    
             for f in glob.glob('things/*'):
                 os.remove(f)
-        print("Arquivos resetados!")
+        return "Arquivos resetados!"
 
 
 if __name__ == "__main__":
