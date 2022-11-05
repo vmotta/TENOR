@@ -59,6 +59,8 @@ RUN echo 'root:mypassword' | chpasswd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
+COPY helpers.ts /home/ubuntu/thingweb.node-wot/packages/core/src
+
 COPY things/*.js /home/ubuntu/thingweb.node-wot/examples/scripts/
 
 VOLUME thingweb
